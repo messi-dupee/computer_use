@@ -4,6 +4,7 @@ import time
 import threading
 import urllib.request
 import pyautogui
+pyautogui.FAILSAFE = False
 import websocket
 from record_screen_audio_sync import start_recording
 
@@ -11,6 +12,7 @@ from record_screen_audio_sync import start_recording
 # CONFIG
 # ========================
 url = "https://www.youtube.com/watch?v=MgwHN9wFTZs&list=PLVxBmyedTVhTRQRYeZJfVBpz_12zwHc6Z&index=1"
+MAX_VIDEOS = 2
 
 # ========================
 # STEP 1: Launch Firefox kiosk with remote debugging
@@ -28,8 +30,15 @@ subprocess.Popen([
     url
 ])
 time.sleep(5)
-pyautogui.click()
+screen_w, screen_h = pyautogui.size()
+pyautogui.click(screen_w // 2, screen_h // 2)
 pyautogui.press('f')
+time.sleep(4)
+pyautogui.moveTo(screen_w - 1, 0)
+time.sleep(1)
+pyautogui.click(screen_w // 2, screen_h // 2)
+time.sleep(0.5)
+
 
 # ========================
 # STEP 2: Keep session alive (anti "still watching")
@@ -95,6 +104,15 @@ def detect_video_transition():
         # Transition: time was > 5s then dropped back to < 2s
         if prev_time > 5 and current_time < 2:
             video_count += 1
+            print(video_count, MAX_VIDEOS)
+            if video_count > MAX_VIDEOS:
+                print(f"[Done] Reached max {MAX_VIDEOS} videos. Shutting down.")
+                recording_proc.terminate()
+                recording_proc.wait()
+                ws.close()
+                import os, signal
+                os.kill(os.getpid(), signal.SIGTERM)
+                return
             filename = f"output_{video_count}.mp4"
             old_proc = recording_proc
             recording_proc = start_recording(filename)

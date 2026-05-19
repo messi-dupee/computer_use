@@ -4,7 +4,8 @@ import subprocess
 def start_recording(filename):
     command = [
         "ffmpeg",
-
+        "-y",
+        "-loglevel", "error",
         "-thread_queue_size", "4096", # avoide queue block
         "-f", "x11grab",
         "-framerate", "10", # resonable fps CPU can encode with 4K res
@@ -23,7 +24,7 @@ def start_recording(filename):
 
         filename,
     ]
-    return subprocess.Popen(command)
+    return subprocess.Popen(command, stdin=subprocess.DEVNULL)
 
 if __name__ == "__main__":
     proc = start_recording("output.mp4")
