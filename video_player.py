@@ -32,12 +32,14 @@ subprocess.Popen([
 time.sleep(5)
 screen_w, screen_h = pyautogui.size()
 pyautogui.click(screen_w // 2, screen_h // 2)
+time.sleep(1)
 pyautogui.press('f')
 time.sleep(4)
 pyautogui.moveTo(screen_w - 1, 0)
 time.sleep(1)
-pyautogui.click(screen_w // 2, screen_h // 2)
-time.sleep(0.5)
+pyautogui.click(screen_w - 1, 0)
+time.sleep(1)
+pyautogui.press('0')
 
 
 # ========================
