@@ -1,0 +1,16 @@
+[
+  {
+    "playlist": {
+      "topic": "quickbook_1",
+      "url": "https://www.youtube.com/watch?v=MgwHN9wFTZs&list=PLVxBmyedTVhTRQRYeZJfVBpz_12zwHc6Z&index=1",
+      "max_num_video": 2
+    }
+  },
+  {
+    "playlist": {
+      "topic": "quickbook_2",
+      "url": "https://www.youtube.com/watch?v=DEAD9U2wbrk&list=PLVxBmyedTVhTRQRYeZJfVBpz_12zwHc6Z&index=6",
+      "max_num_video": 3
+    }
+  }
+]
