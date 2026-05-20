@@ -17,6 +17,7 @@ MAX_VIDEOS = 2
 # ========================
 # STEP 1: Launch Firefox kiosk with remote debugging
 # ========================
+# launch the browser in kiosk mode with remote debugging enabled
 subprocess.Popen([
     "google-chrome",
     "--kiosk",
@@ -29,17 +30,23 @@ subprocess.Popen([
     "--autoplay-policy=no-user-gesture-required",
     url
 ])
-time.sleep(5)
+
+# allow some time to load video
+time.sleep(8)
 screen_w, screen_h = pyautogui.size()
+
+# click the center to ensure video player has focus, then press 'f' for fullscreen
 pyautogui.click(screen_w // 2, screen_h // 2)
 time.sleep(1)
 pyautogui.press('f')
 time.sleep(4)
+
+# move mouse to top-right corner to hide cursor and controls, then press '0' to reset to the beginning of the video (ensures we capture the full video duration) and click again to play the video  
 pyautogui.moveTo(screen_w - 1, 0)
 time.sleep(1)
-pyautogui.click(screen_w - 1, 0)
-time.sleep(1)
 pyautogui.press('0')
+time.sleep(1)
+pyautogui.click(screen_w - 1, 0)
 
 
 # ========================
